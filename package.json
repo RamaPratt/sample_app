@@ -1,14 +1,22 @@
 {
-  "name": "sample-app",
+  "name": "sample_app",
   "private": true,
   "dependencies": {
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
-    "turbolinks": "^5.2.0"
+    "@rails/webpacker": "4.3.0",
+    "axios": "^0.21.0",
+    "postcss-selector-parser": "^6.0.4",
+    "turbolinks": "^5.2.0",
+    "vue": "^2.6.12",
+    "vue-loader": "^15.9.5",
+    "vue-router": "^3.4.9",
+    "vue-template-compiler": "^2.6.12"
   },
   "version": "0.1.0",
   "devDependencies": {
-    "webpack-dev-server": "^3.11.2"
+    "tailwindcss-multi-column": "^1.0.2",
+    "webpack-dev-server": "^3.11.0"
   }
 }
