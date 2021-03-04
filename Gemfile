@@ -21,6 +21,7 @@ group :development do
   gem 'listen',                '3.2.1'
   gem 'spring',                '2.1.1'
   gem 'spring-watcher-listen', '2.0.1'
+  gem 'prettier'
 end
 
 group :test do
