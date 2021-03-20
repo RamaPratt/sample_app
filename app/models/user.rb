@@ -12,12 +12,8 @@ class User < ApplicationRecord
 
   # Returns the hash digest of the given string.
   def User.digest(string)
-    cost =
-      if ActiveModel::SecurePassword.min_cost
-        BCrypt::Engine::MIN_COST
-      else
-        BCrypt::Engine.cost
-      end
+    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
+                                                  BCrypt::Engine.cost
     BCrypt::Password.create(string, cost: cost)
   end
 
@@ -30,8 +26,11 @@ class User < ApplicationRecord
   def remember
     self.remember_token = User.new_token
     update_attribute(:remember_digest, User.digest(remember_token))
+    remember_digest
   end
 
+  # Returns a session token to prevent session hijacking.
+  # We reuse the remember digest for convenience.
   def session_token
     remember_digest || remember
   end
@@ -41,11 +40,21 @@ class User < ApplicationRecord
     digest = send("#{attribute}_digest")
     return false if digest.nil?
     BCrypt::Password.new(digest).is_password?(token)
-  endc
+  end
 
   # Forgets a user.
   def forget
     update_attribute(:remember_digest, nil)
+  end
+
+  # Activates an account.
+  def activate
+    update_columns(activated: true, activated_at: Time.zone.now)
+  end
+
+  # Sends activation email.
+  def send_activation_email
+    UserMailer.account_activation(self).deliver_now
   end
 
   private
